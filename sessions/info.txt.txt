@@ -1,1 +1,1 @@
-Where the sessions file will be stored
+Where the session files will be stored
