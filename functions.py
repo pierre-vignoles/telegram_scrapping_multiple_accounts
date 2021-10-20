@@ -2,7 +2,7 @@ from telethon.client.telegramclient import TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 from telethon.tl.types import InputPeerUser, Channel
 from telethon.errors.rpcerrorlist import PeerFloodError, UserPrivacyRestrictedError, UserNotMutualContactError, \
-    UserChannelsTooMuchError
+    UserChannelsTooMuchError, ChannelPrivateError
 from telethon.tl.types import UserStatusRecently
 from telethon.helpers import TotalList
 
@@ -17,31 +17,52 @@ from typing import List, Dict, Union, Tuple
 
 from myconfig import *
 
+from colorama import init, Fore
+
+init()
+rs = Fore.RESET
+lg = Fore.LIGHTGREEN_EX
+r = Fore.RED
+w = Fore.WHITE
+cy = Fore.CYAN
+ye = Fore.YELLOW
+colors = [cy, w, r]
+
 
 def logo():
-    logo_str: str = """`` ``  `` ``  `  `` ``  `` `..-::////::-..` ``  `` ``  `  ``  `  `` ``
-  `  `` ``  `` ``  `` ``.:+oosossssssssoooo+:.`` ``  `` ``  `  ``  `  
-`` ``  `` ``  `  ````./oossssssssssssssssssssoo:.` `   `  ``  `  `  ``
-``  `  `   `  `` ``.+osssssssssssssssssssssssssso+.``  `  `   `  `` ` 
-  `  ``  `  `` ```/osssssssssssssssssssssssssssssso/``` ``  `  ``  `  
-`` ``  `  ``  ``.+sssssssssssssssssssssssssssssssssso.``  `` ``  `` ``
-  `  ``  `  `` .ossssssssssssssssssssssssso++ossssssso. ``  `  ``  `  
-``  `  `  `` ``+ssssssssssssssssssssso+/:-```/sssssssso`  `` ``  `  ``
-  `  `   `  ``:ssssssssssssssssoo+/:.````   `osssssssss:``  `  ``  `  
-  `  `   ` ```osssssssssssoo+/-.``  ``.``   :sssssssssso``` `  `  ``  
-`` ``  `` `` `ossssssso+/-.`     ``..`      +sssssssssss` `` ``  `  ``
-  `  `` ``  ``ossssssso-.``   ``...`       .ssssssssssso``  `` ``  `  
-``  `  `` `` `osssssssssoo+/:....`         /ssssssssssso` ``  `  `  ``
-  `  ``  `  ``:ssssssssssssso:.-.`        `osssssssssss:``  `  ``  `  
-``  `  ``  `  `+sssssssssssss+---:/-`     :ssssssssssso`  `   `  `  ` 
- ``    `      `.osssssssssssss/:+osso/.` `osssssssssso.    `        ` 
-  `  ``  `  `` `.ossssssssssssoosssssso+/+ssssssssss+.`  `  `  ``  `  
-`` ``  `  ``  ` ``/osssssssssssssssssssssssssssssso/`  `  ``  `  `` ``
-  `  ``  `  `` `` `.+osssssssssssssssssssssssssso+.  `` ``  `  ``  `  
-``  `  `  ``  `  `` `./oossssssssssssssssssssoo/.` ``  `  ``  `  `` ``
-  `  `` ``  `   `  `` ``.:+oooossssssssooso+:.`` ``  `` ``  `  ``  `  
-```  ``         `  `  `` ````--::////::--```````     ````` `          """
-    print(logo_str)
+    logo_str: List[str] = ["""`` ``  `` ``  `  `` ``  `` `..-::////::-..` ``  `` ``  `  ``  `  `` ``""",
+"""  `  `` ``  `` ``  `` ``.:+oosossssssssoooo+:.`` ``  `` ``  `  ``  `"""  ,
+"""`` ``  `` ``  `  ````./oossssssssssssssssssssoo:.` `   `  ``  `  `  ``""",
+"""``  `  `   `  `` ``.+osssssssssssssssssssssssssso+.``  `  `   `  `` ` """,
+"""  `  ``  `  `` ```/osssssssssssssssssssssssssssssso/``` ``  `  ``  `  """,
+"""`` ``  `  ``  ``.+sssssssssssssssssssssssssssssssssso.``  `` ``  `` ``""",
+"""  `  ``  `  `` .ossssssssssssssssssssssssso++ossssssso. ``  `  ``  `  """,
+"""``  `  `  `` ``+ssssssssssssssssssssso+/:-```/sssssssso`  `` ``  `  ``""",
+"""  `  `   `  ``:ssssssssssssssssoo+/:.````   `osssssssss:``  `  ``  `  """,
+"""  `  `   ` ```osssssssssssoo+/-.``  ``.``   :sssssssssso``` `  `  ``  """,
+"""`` ``  `` `` `ossssssso+/-.`     ``..`      +sssssssssss` `` ``  `  ``""",
+"""  `  `` ``  ``ossssssso-.``   ``...`       .ssssssssssso``  `` ``  `  """,
+"""``  `  `` `` `osssssssssoo+/:....`         /ssssssssssso` ``  `  `  ``""",
+""" `  ``  `  ``:ssssssssssssso:.-.`        `ossssssssssss:``  `  ``  `  """,
+"""``  `  ``  `  `+sssssssssssss+---:/-`     :ssssssssssso`  `   `  `  ` """,
+""" ``    `      `.osssssssssssss/:+osso/.` `osssssssssso.    `        ` """,
+"""  `  ``  `  `` `.ossssssssssssoosssssso+/+ssssssssss+.`  `  `  ``  `  """,
+"""`` ``  `  ``  ` ``/osssssssssssssssssssssssssssssso/`  `  ``  `  `` ``""",
+"""  `  ``  `  `` `` `.+osssssssssssssssssssssssssso+.  `` ``  `  ``  `  """,
+"""``  `  `  ``  `  `` `./oossssssssssssssssssssoo/.` ``  `  ``  `  `` ``""",
+"""  `  `` ``  `   `  `` ``.:+oooossssssssooso+:.`` ``  `` ``  `  ``  `  """,
+"""```  ``         `  `  `` ````--::////::--```````     ````` `          """]
+    for idx, char in enumerate(logo_str):
+        if idx <= (len(logo_str) / 3) :
+            colors_list = colors[0]
+        elif idx <= (len(logo_str) / 3)*2 :
+            colors_list = colors[1]
+        else:
+            colors_list = colors[2]
+
+        print(f'{colors_list}{char}{rs}')
+    print(f'{r}Telegram Scraper{rs}\n')
+    print(f'{lg}Version: {rs}1.0 | {lg}Author: {rs}Pierre{rs}\n')
 
 
 def define_title_file(target_group_title: str, own_group_or_blacklist: bool, username: str) -> str:
@@ -55,12 +76,19 @@ def define_title_file(target_group_title: str, own_group_or_blacklist: bool, use
     return title_file
 
 
-async def join_group(client: TelegramClient):
-    your_group = await client.get_entity(link_channel_to_add_members)
-    await client(JoinChannelRequest(your_group))
-    group_scrape = await client.get_entity(link_channel_you_want_to_scrape)
-    await client(JoinChannelRequest(group_scrape))
-    print("\n\nGroups joined")
+async def join_group(client: TelegramClient) -> Tuple[Channel, Channel]:
+    try:
+        your_group = await client.get_entity(link_channel_to_add_members)
+        await client(JoinChannelRequest(your_group))
+        print("\n\n Group {} joined ".format(your_group.title))
+    except ChannelPrivateError:
+        print("\n\n Group {} can't be joined with this account because ChannelPrivateError".format(group_scrape.title))
+    try:
+        group_scrape = await client.get_entity(link_channel_you_want_to_scrape)
+        await client(JoinChannelRequest(group_scrape))
+        print("\n\n Group {} joined ".format(group_scrape.title))
+    except ChannelPrivateError:
+        print("\n\n Group {} can't be joined with this account because ChannelPrivateError".format(group_scrape.title))
     return your_group, group_scrape
 
 
@@ -233,7 +261,7 @@ async def add_members_to_group(client: TelegramClient, username: str):
             try:
                 user_to_add = InputPeerUser(user['id'], user['access_hash'])
                 if idx == 0:
-                    await client(InviteToChannelRequest(target_group, [user_to_add]))
+                    await client(InviteToChannelRequest(your_group, [user_to_add]))
                     print("\nAdd : " + str(user['id']))
                     print(str(idx + 1) + "/" + str(len(users_you_want_to_add)))
                     await add_member_csv(user, title_file_of_your_own_group)
@@ -244,15 +272,15 @@ async def add_members_to_group(client: TelegramClient, username: str):
                                     number_of_seconds_to_wait_between_every_add)
                     print("\nWait {} sec..".format(value))
                     time.sleep(value)
-                    await client(InviteToChannelRequest(target_group, [user_to_add]))
+                    await client(InviteToChannelRequest(your_group, [user_to_add]))
                     print("Add : " + str(user['id']))
                     print(str(idx + 1) + "/" + str(len(users_you_want_to_add)))
                     await add_member_csv(user, title_file_of_your_own_group)
                     if idx % number_of_adds_between_every_message == 0:
                         if bool_send_message == True:
                             await function_send_message(client, username)
-                        print("\nWait {} sec..".format(number_of_seconds_to_wait_between_every_add * 2))
-                        time.sleep(number_of_seconds_to_wait_between_every_add * 2)
+                        #print("\nWait {} sec..".format(number_of_seconds_to_wait_between_every_add * 2))
+                        #time.sleep(number_of_seconds_to_wait_between_every_add * 2)
                     else:
                         print("Wait {} sec..".format(number_of_seconds_to_wait_between_every_add - value))
                         time.sleep(number_of_seconds_to_wait_between_every_add - value)
@@ -287,6 +315,9 @@ async def add_members_to_group(client: TelegramClient, username: str):
                 else:
                     print("Wait {} sec..".format(number_of_seconds_to_wait_between_every_add - value))
                     time.sleep(number_of_seconds_to_wait_between_every_add - value)
+            except KeyboardInterrupt:
+                print(f'{error}{r} ---- Adding Terminated ----')
+                exit_window()
             except:
                 traceback.print_exc()
                 print("Unexpected Error")

@@ -7,7 +7,7 @@ setup(
     packages=find_packages(),
     url='',
     license='',
-    author='test',
+    author='',
     author_email='',
     description=''
 )

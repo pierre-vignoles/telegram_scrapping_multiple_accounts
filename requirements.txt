@@ -3,6 +3,7 @@
 # platform: win-64
 ca-certificates=2021.7.5=haa95532_1
 certifi=2021.5.30=py38haa95532_0
+colorama=0.4.4
 nest-asyncio=1.5.1=pypi_0
 openssl=1.1.1l=h2bbff1b_0
 pathlib=1.0.1=pypi_0
