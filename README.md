@@ -34,3 +34,5 @@ Some variables must be configured in order to make this program work in the file
 
 ## Launch 
 Execute the following command in a terminal : `python main.py`
+
+![screen](https://github.com/pierre-vignoles/telegram_scrapping_multiple_accounts/blob/master/img/screen.png)
