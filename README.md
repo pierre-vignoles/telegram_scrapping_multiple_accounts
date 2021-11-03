@@ -12,7 +12,7 @@ If you add too much users, your accounts risk to be banned. To avoid that I reco
 * Never add more than 50 users per account per day
 * Never add more than 200 users per group per day
 * Always wait 3 days at minimum after the creation of your account to start to add users with it.
-* During these 3 days minimum, use [this program](https://github.com/pierre-vignoles/telegram_send_messages) I made to increase the authority of your accounts.
+* During these 3 days minimum, use [this program](https://github.com/pierre-vignoles/telegram_send_messages) I made it to increase the authority of your accounts.
 
 ## Getting Started
 * You need one or multiple Telegram accounts.
